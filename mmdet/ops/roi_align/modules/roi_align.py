@@ -14,3 +14,6 @@ class RoIAlign(Module):
     def forward(self, features, rois):
         return RoIAlignFunction.apply(features, rois, self.out_size,
                                       self.spatial_scale, self.sample_num)
+
+    def __repr__(self):
+        return f"RoiAlign(out_size:{self.out_size}, spatial_scale:{self.spatial_scale}, sample_num:{self.sample_num})"

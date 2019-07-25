@@ -7,8 +7,9 @@ class AnchorGenerator(object):
         self.base_size = base_size
         self.scales = torch.Tensor(scales)
         self.ratios = torch.Tensor(ratios)
-        self.scale_major = scale_major
+        self.scale_major = scale_major  # determines order when reshape to [-1]
         self.ctr = ctr
+        # anchors located in the center of rectangle of bases_size x base_size
         self.base_anchors = self.gen_base_anchors()
 
     @property
@@ -70,6 +71,7 @@ class AnchorGenerator(object):
         return all_anchors
 
     def valid_flags(self, featmap_size, valid_size, device='cuda'):
+        # set anchors outside featmap_size as invalid...
         feat_h, feat_w = featmap_size
         valid_h, valid_w = valid_size
         assert valid_h <= feat_h and valid_w <= feat_w
@@ -79,6 +81,7 @@ class AnchorGenerator(object):
         valid_y[:valid_h] = 1
         valid_xx, valid_yy = self._meshgrid(valid_x, valid_y)
         valid = valid_xx & valid_yy
+        # [valid.size(0), 1] => [valid.size(1), num_base_anchors] => [valid.size(1) x num_base_anchors]
         valid = valid[:, None].expand(
             valid.size(0), self.num_base_anchors).contiguous().view(-1)
         return valid

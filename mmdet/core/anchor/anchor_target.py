@@ -105,7 +105,7 @@ def anchor_target_single(flat_anchors,
                          unmap_outputs=True):
     inside_flags = anchor_inside_flags(flat_anchors, valid_flags,
                                        img_meta['img_shape'][:2],
-                                       cfg.allowed_border)
+                                       cfg.allowed_border)  # set flags with in allowed_boarder
     if not inside_flags.any():
         return (None, ) * 6
     # assign gt and sample anchors
