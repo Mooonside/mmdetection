@@ -210,7 +210,7 @@ test_cfg = dict(
     keep_all_stages=False)
 # dataset settings
 dataset_type = 'CocoDataset'
-data_root = 'data/coco/'
+data_root = '/home/chenyifeng/.mxnet/datasets/coco/'
 img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
 data = dict(
@@ -224,7 +224,7 @@ data = dict(
         img_norm_cfg=img_norm_cfg,
         size_divisor=32,
         flip_ratio=0.5,
-        seg_prefix=data_root + 'stuffthingmaps/train2017/',
+        seg_prefix=data_root + 'annotations/stuffthingmaps/train2017/',
         seg_scale_factor=1 / 8,
         with_mask=True,
         with_crowd=True,

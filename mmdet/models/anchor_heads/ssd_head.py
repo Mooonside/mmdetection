@@ -28,6 +28,7 @@ class SSDHead(AnchorHead):
         self.num_classes = num_classes
         self.in_channels = in_channels
         self.cls_out_channels = num_classes
+        # r, s, 1.0/s, sqrt(r, r')}
         num_anchors = [len(ratios) * 2 + 2 for ratios in anchor_ratios]
         reg_convs = []
         cls_convs = []
@@ -85,7 +86,7 @@ class SSDHead(AnchorHead):
             indices = list(range(len(ratios)))
             indices.insert(1, len(indices))
             anchor_generator.base_anchors = torch.index_select(
-                anchor_generator.base_anchors, 0, torch.LongTensor(indices))
+                anchor_generator.base_anchors, 0, torch.LongTensor(indices))  # choose [scale=1.0, scale=sqrt()]
             self.anchor_generators.append(anchor_generator)
 
         self.target_means = target_means
